@@ -43,16 +43,22 @@ function getNews (source, sortBy) {
 
                         //Retrieve Author
                         let author = newsDetails.articles[x].author;
-                        newsBody +=  '\nWritten By: ' + author
+                        if(author != null) {
+                            newsBody +=  '\nWritten By: ' + author;
+                        }    
 
                         //Retrieve Date
                         let date = newsDetails.articles[x].publishedAt;
-                        date = date.slice(0, 10);
-                        newsBody +=  '\nDate: ' + date
+                        if(date != null) {
+                            date = date.slice(0, 10);
+                            newsBody +=  '\nDate: ' + date;
+                        } 
 
                         //Retrieve News Link
                         let url = newsDetails.articles[x].url;
-                        newsBody +=  '\nRead more: ' + url;
+                        if(newsDetails != null) {
+                            newsBody +=  '\nRead more: ' + url;
+                        }
 
                         console.log(s_No + ") " + newsBody + '\n');
                         s_No++;
@@ -64,6 +70,9 @@ function getNews (source, sortBy) {
                     console.log(error);
                 }
                 
+            }
+            else if(JSON.parse(body).message) {
+                console.log(JSON.parse(body).message);
             }
             else {
                 console.log('Request was not successful. Please check your connection and/or input values and try again.');
