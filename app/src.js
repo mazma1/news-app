@@ -75,5 +75,3 @@ function getNews (source, sortBy) {
 }
 
 module.exports.getNews = getNews;
-
-// getNews ('techcrunch', 'top');
