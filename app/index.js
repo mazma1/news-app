@@ -1,8 +1,16 @@
 'use strict';
 
 const newsSrc = require("./src"); 
-let source = process.argv.slice(2)[0];  //Returns an array of arguments passed from CL
-let sortBy = process.argv.slice(2)[1]; 
+let inputArray = process.argv;  //Returns an array of arguments passed from CL
+let source = inputArray[2];  
+let sortBy = inputArray[3]; 
 
-newsSrc.getNews(source, sortBy);
+if(inputArray.length > 4 || inputArray.length < 4 ){
+    console.log ("Two inputs are required to use News App.")
+}
+
+else {
+    newsSrc.getNews(source, sortBy);
+}
+
 

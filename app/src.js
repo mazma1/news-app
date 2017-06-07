@@ -66,7 +66,7 @@ function getNews (source, sortBy) {
                 
             }
             else {
-                console.log('Request was not successful. Please check your connectionand try again.');
+                console.log('Request was not successful. Please check your connection and/or input values and try again.');
             }
 
         });
