@@ -30,4 +30,4 @@ News categories are as follows:
 3. popular
 
 Example command
-Run `node app/index.js cnn latest`
+Run `node app/index cnn latest`
