@@ -1,12 +1,12 @@
 'use strict';
-require('dotenv').config();
 
+require('dotenv').config();
 const https = require('https');
 const apiKey = process.env.API_KEY;
 let s_No = 1;
 
 function getNews (source, sortBy) {
-    let requestURL = 'https://newsapi.org/v1/articles?source='+ source +'&sortBy=' + sortBy +'&apiKey=' + apiKey;
+    let requestURL = 'https://newsapi.org/v1/articles?source='+source+'&sortBy='+sortBy+'&apiKey='+apiKey;
 
     // Send Get request to the API URL
     https.get(requestURL, function(response) {
@@ -20,27 +20,45 @@ function getNews (source, sortBy) {
             if(response.statusCode === 200){
                 try { 
                     let newsDetails = JSON.parse(body);
+                    let category;
                     let newsBody;
                     
                     if (sortBy == 'latest') {
-                        newsBody = "Latest News";
+                        category = "LATEST NEWS: \n";
                     }
                     else if (sortBy == 'top') {
-                        newsBody == "Top News";
+                        category = "TOP NEWS: \n";
                     }
                     else if (sortBy == 'popular') {
-                        newsBody == "Popular News";
+                        category = "POPULAR NEWS: \n";
                     }
+                    console.log(category);
 
-                    //Retrieve News Headline
-                    let headline = newsDetails.articles[title];
-                    newsBody +=  "\n\n" + headline;
+                    let articles = newsDetails.articles;
+                    for(let x=0; x<articles.length; x++){
 
+                        //Retrieve News Headline
+                        let headline = newsDetails.articles[x].title;
+                        newsBody =  headline;
+
+                        //Retrieve Author
+                        let author = newsDetails.articles[x].author;
+                        newsBody +=  '\nWritten By: ' + author
+
+                        //Retrieve Date
+                        let date = newsDetails.articles[x].publishedAt;
+                        date = date.slice(0, 10);
+                        newsBody +=  '\nDate: ' + date
+
+                        //Retrieve News Link
+                        let url = newsDetails.articles[x].url;
+                        newsBody +=  '\nRead more: ' + url;
+
+                        console.log(s_No + ") " + newsBody + '\n');
+                        s_No++;
+                    }
+                    console.log('\nNews App is Powered By https://newsapi.org/');
                     
-
-                    console.log(s_No + ")") ;   
-                    console.log(newsBody);
-                    s_No++;
                 }
                 catch(error) {
                     console.log(error);
@@ -48,7 +66,7 @@ function getNews (source, sortBy) {
                 
             }
             else {
-                console.log('Request was not successfully. Please check your connection.');
+                console.log('Request was not successful. Please check your connectionand try again.');
             }
 
         });
@@ -56,4 +74,6 @@ function getNews (source, sortBy) {
     });
 }
 
-getNews ('techcrunch', 'latest');
+module.exports.getNews = getNews;
+
+// getNews ('techcrunch', 'top');
